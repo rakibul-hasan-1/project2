@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8"/>
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+<!---<link rel="stylesheet" href="base.min.css"/>
+<link rel="stylesheet" href="fancy.min.css"/>
+<link rel="stylesheet" href="main.css"/>---->
+<style>
+    /*! 
+ * Base CSS
+ * 
+ * 
+ */#sidebar{position:absolute;top:0;left:0;bottom:0;width:250px;padding:0;margin:0;overflow:auto}#page-container{position:absolute;top:0;left:0;margin:0;padding:0;border:0}@media screen{#sidebar.opened+#page-container{left:250px}#page-container{bottom:0;right:0;overflow:auto}.loading-indicator{display:none}.loading-indicator.active{display:block;position:absolute;width:64px;height:64px;top:50%;left:50%;margin-top:-32px;margin-left:-32px}.loading-indicator img{position:absolute;top:0;left:0;bottom:0;right:0}}@media print{@page{margin:0}html{margin:0}body{margin:0;-webkit-print-color-adjust:exact}#sidebar{display:none}#page-container{width:auto;height:auto;overflow:visible;background-color:transparent}.d{display:none}}.pf{position:relative;background-color:white;overflow:hidden;margin:0;border:0}.pc{position:absolute;border:0;padding:0;margin:0;top:0;left:0;width:100%;height:100%;overflow:hidden;display:block;transform-origin:0 0;-ms-transform-origin:0 0;-webkit-transform-origin:0 0}.pc.opened{display:block}.bf{position:absolute;border:0;margin:0;top:0;bottom:0;width:100%;height:100%;-ms-user-select:none;-moz-user-select:none;-webkit-user-select:none;user-select:none}.bi{position:absolute;border:0;margin:0;-ms-user-select:none;-moz-user-select:none;-webkit-user-select:none;user-select:none}@media print{.pf{margin:0;box-shadow:none;page-break-after:always;page-break-inside:avoid}@-moz-document url-prefix(){.pf{overflow:visible;border:1px solid #fff}.pc{overflow:visible}}}.c{position:absolute;border:0;padding:0;margin:0;overflow:hidden;display:block}.t{position:absolute;white-space:pre;font-size:1px;transform-origin:0 100%;-ms-transform-origin:0 100%;-webkit-transform-origin:0 100%;unicode-bidi:bidi-override;-moz-font-feature-settings:"liga" 0}.t:after{content:''}.t:before{content:'';display:inline-block}.t span{position:relative;unicode-bidi:bidi-override}._{display:inline-block;color:transparent;z-index:-1}::selection{background:rgba(127,255,255,0.4)}::-moz-selection{background:rgba(127,255,255,0.4)}.pi{display:none}.d{position:absolute;transform-origin:0 100%;-ms-transform-origin:0 100%;-webkit-transform-origin:0 100%}.it{border:0;background-color:rgba(255,255,255,0.0)}.ir:hover{cursor:pointer}
+</style>
+<style>
+    /*! 
+ * Fancy styles
+
+ */@keyframes fadein{from{opacity:0}to{opacity:1}}@-webkit-keyframes fadein{from{opacity:0}to{opacity:1}}@keyframes swing{0{transform:rotate(0)}10%{transform:rotate(0)}90%{transform:rotate(720deg)}100%{transform:rotate(720deg)}}@-webkit-keyframes swing{0{-webkit-transform:rotate(0)}10%{-webkit-transform:rotate(0)}90%{-webkit-transform:rotate(720deg)}100%{-webkit-transform:rotate(720deg)}}@media screen{#sidebar{background-color:#2f3236;background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjNDAzYzNmIj48L3JlY3Q+CjxwYXRoIGQ9Ik0wIDBMNCA0Wk00IDBMMCA0WiIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2U9IiMxZTI5MmQiPjwvcGF0aD4KPC9zdmc+")}#outline{font-family:Georgia,Times,"Times New Roman",serif;font-size:13px;margin:2em 1em}#outline ul{padding:0}#outline li{list-style-type:none;margin:1em 0}#outline li>ul{margin-left:1em}#outline a,#outline a:visited,#outline a:hover,#outline a:active{line-height:1.2;color:#e8e8e8;text-overflow:ellipsis;white-space:nowrap;text-decoration:none;display:block;overflow:hidden;outline:0}#outline a:hover{color:#0cf}#page-container{background-color:#9e9e9e;background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPgo8cmVjdCB3aWR0aD0iNSIgaGVpZ2h0PSI1IiBmaWxsPSIjOWU5ZTllIj48L3JlY3Q+CjxwYXRoIGQ9Ik0wIDVMNSAwWk02IDRMNCA2Wk0tMSAxTDEgLTFaIiBzdHJva2U9IiM4ODgiIHN0cm9rZS13aWR0aD0iMSI+PC9wYXRoPgo8L3N2Zz4=");-webkit-transition:left 500ms;transition:left 500ms}.pf{margin:13px auto;box-shadow:1px 1px 3px 1px #333;border-collapse:separate}.pc.opened{-webkit-animation:fadein 100ms;animation:fadein 100ms}.loading-indicator.active{-webkit-animation:swing 1.5s ease-in-out .01s infinite alternate none;animation:swing 1.5s ease-in-out .01s infinite alternate none}.checked{background:no-repeat url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3goQDSYgDiGofgAAAslJREFUOMvtlM9LFGEYx7/vvOPM6ywuuyPFihWFBUsdNnA6KLIh+QPx4KWExULdHQ/9A9EfUodYmATDYg/iRewQzklFWxcEBcGgEplDkDtI6sw4PzrIbrOuedBb9MALD7zv+3m+z4/3Bf7bZS2bzQIAcrmcMDExcTeXy10DAFVVAQDksgFUVZ1ljD3yfd+0LOuFpmnvVVW9GHhkZAQcxwkNDQ2FSCQyRMgJxnVdy7KstKZpn7nwha6urqqfTqfPBAJAuVymlNLXoigOhfd5nmeiKL5TVTV+lmIKwAOA7u5u6Lped2BsbOwjY6yf4zgQQkAIAcedaPR9H67r3uYBQFEUFItFtLe332lpaVkUBOHK3t5eRtf1DwAwODiIubk5DA8PM8bYW1EU+wEgCIJqsCAIQAiB7/u253k2BQDDMJBKpa4mEon5eDx+UxAESJL0uK2t7XosFlvSdf0QAEmlUnlRFJ9Waho2Qghc1/U9z3uWz+eX+Wr+lL6SZfleEAQIggA8z6OpqSknimIvYyybSCReMsZ6TislhCAIAti2Dc/zejVNWwCAavN8339j27YbTg0AGGM3WltbP4WhlRWq6Q/btrs1TVsYHx+vNgqKoqBUKn2NRqPFxsbGJzzP05puUlpt0ukyOI6z7zjOwNTU1OLo6CgmJyf/gA3DgKIoWF1d/cIY24/FYgOU0pp0z/Ityzo8Pj5OTk9PbwHA+vp6zWghDC+VSiuRSOQgGo32UErJ38CO42wdHR09LBQK3zKZDDY2NupmFmF4R0cHVlZWlmRZ/iVJUn9FeWWcCCE4ODjYtG27Z2Zm5juAOmgdGAB2d3cBADs7O8uSJN2SZfl+WKlpmpumaT6Yn58vn/fs6XmbhmHMNjc3tzDGFI7jYJrm5vb29sDa2trPC/9aiqJUy5pOp4f6+vqeJ5PJBAB0dnZe/t8NBajx/z37Df5OGX8d13xzAAAAAElFTkSuQmCC)}}
+</style>
+<style>
+    .ff0{font-family:sans-serif;visibility:hidden;}
+@font-face{font-family:ff1;src:url(f1.woff)format("woff");}.ff1{font-family:ff1;line-height:0.983887;font-style:normal;font-weight:normal;visibility:visible;}
+@font-face{font-family:ff2;src:url(f2.woff)format("woff");}.ff2{font-family:ff2;line-height:0.938965;font-style:normal;font-weight:normal;visibility:visible;}
+@font-face{font-family:ff3;src:url(f3.woff)format("woff");}.ff3{font-family:ff3;line-height:0.938477;font-style:normal;font-weight:normal;visibility:visible;}
+@font-face{font-family:ff4;src:url(f4.woff)format("woff");}.ff4{font-family:ff4;line-height:0.740723;font-style:normal;font-weight:normal;visibility:visible;}
+.m0{transform:matrix(0.250000,0.000000,0.000000,0.250000,0,0);-ms-transform:matrix(0.250000,0.000000,0.000000,0.250000,0,0);-webkit-transform:matrix(0.250000,0.000000,0.000000,0.250000,0,0);}
+.v0{vertical-align:0.000000px;}
+.ls0{letter-spacing:0.000000px;}
+.sc_{text-shadow:none;}
+.sc0{text-shadow:-0.015em 0 transparent,0 0.015em transparent,0.015em 0 transparent,0 -0.015em  transparent;}
+@media screen and (-webkit-min-device-pixel-ratio:0){
+.sc_{-webkit-text-stroke:0px transparent;}
+.sc0{-webkit-text-stroke:0.015em transparent;text-shadow:none;}
+}
+.ws0{word-spacing:0.000000px;}
+._1{margin-left:-2.112000px;}
+._0{margin-left:-1.024000px;}
+.fc1{color:rgb(55,121,57);}
+.fc0{color:rgb(34,31,31);}
+.fs6{font-size:28.000000px;}
+.fs7{font-size:32.000000px;}
+.fs4{font-size:36.000000px;}
+.fs2{font-size:40.000000px;}
+.fs1{font-size:44.000000px;}
+.fs3{font-size:48.000000px;}
+.fs0{font-size:64.000000px;}
+.fs5{font-size:72.000000px;}
+.y3{bottom:0.000000px;}
+.y31{bottom:2.925001px;}
+.y35{bottom:3.120999px;}
+.y23{bottom:3.239998px;}
+.y60{bottom:3.271000px;}
+.y1e{bottom:3.283001px;}
+.y18{bottom:3.333001px;}
+.y16{bottom:3.334000px;}
+.y13{bottom:3.486000px;}
+.y33{bottom:3.495000px;}
+.y66{bottom:3.514999px;}
+.yc{bottom:3.545006px;}
+.y5{bottom:3.757000px;}
+.y27{bottom:3.933000px;}
+.y69{bottom:3.952999px;}
+.y6f{bottom:4.070999px;}
+.y2{bottom:4.768000px;}
+.y0{bottom:5.500000px;}
+.y63{bottom:5.721001px;}
+.ye{bottom:5.769000px;}
+.y2b{bottom:5.990999px;}
+.y72{bottom:6.640999px;}
+.y49{bottom:6.783000px;}
+.y5c{bottom:6.791000px;}
+.y4b{bottom:6.833000px;}
+.y42{bottom:6.883000px;}
+.y3d{bottom:6.933000px;}
+.y44{bottom:6.983000px;}
+.y40{bottom:7.283000px;}
+.y46{bottom:7.333000px;}
+.y2d{bottom:7.341000px;}
+.y74{bottom:7.671000px;}
+.y30{bottom:11.856003px;}
+.y22{bottom:13.976997px;}
+.y15{bottom:14.132999px;}
+.y12{bottom:15.416000px;}
+.y65{bottom:15.445000px;}
+.yb{bottom:15.475002px;}
+.y68{bottom:18.269000px;}
+.y6e{bottom:18.386997px;}
+.y25{bottom:20.582998px;}
+.y1d{bottom:21.783001px;}
+.y2f{bottom:23.873001px;}
+.y11{bottom:27.346001px;}
+.ya{bottom:27.404999px;}
+.y21{bottom:32.605000px;}
+.y6d{bottom:32.752998px;}
+.y9{bottom:39.335003px;}
+.y1c{bottom:40.383001px;}
+.y10{bottom:43.245001px;}
+.y6c{bottom:47.068999px;}
+.y20{bottom:51.233000px;}
+.y8{bottom:51.265001px;}
+.y7{bottom:63.195002px;}
+.y3f{bottom:124.624975px;}
+.y3e{bottom:142.974976px;}
+.y3c{bottom:160.975025px;}
+.y70{bottom:167.924988px;}
+.y3a{bottom:179.024976px;}
+.y3b{bottom:179.875012px;}
+.y29{bottom:193.124974px;}
+.y4c{bottom:200.775000px;}
+.y6b{bottom:211.124989px;}
+.y4a{bottom:218.624975px;}
+.y28{bottom:218.975011px;}
+.y48{bottom:236.475012px;}
+.y24{bottom:240.675026px;}
+.y26{bottom:240.724988px;}
+.y47{bottom:254.324976px;}
+.y45{bottom:272.225042px;}
+.y2a{bottom:290.524988px;}
+.y43{bottom:290.575012px;}
+.y6a{bottom:297.524994px;}
+.y41{bottom:308.524994px;}
+.y1{bottom:321.024988px;}
+.y39{bottom:326.275006px;}
+.y38{bottom:329.525006px;}
+.y67{bottom:340.725006px;}
+.y50{bottom:346.475012px;}
+.y1f{bottom:348.375000px;}
+.y1b{bottom:359.224998px;}
+.y4f{bottom:364.325006px;}
+.y4e{bottom:382.725006px;}
+.y71{bottom:388.825006px;}
+.y4d{bottom:400.724995px;}
+.y1a{bottom:415.424993px;}
+.y36{bottom:418.775006px;}
+.y37{bottom:420.675000px;}
+.y19{bottom:434.475011px;}
+.y5a{bottom:438.875006px;}
+.y64{bottom:449.825006px;}
+.y17{bottom:453.625005px;}
+.y59{bottom:456.725000px;}
+.y58{bottom:474.625006px;}
+.y14{bottom:485.874994px;}
+.y57{bottom:492.475012px;}
+.y76{bottom:499.574987px;}
+.y56{bottom:510.324987px;}
+.y75{bottom:517.924988px;}
+.y55{bottom:528.174994px;}
+.yf{bottom:533.024990px;}
+.y73{bottom:535.925007px;}
+.y54{bottom:546.025003px;}
+.y62{bottom:552.274996px;}
+.y61{bottom:553.975003px;}
+.y53{bottom:563.924994px;}
+.y7b{bottom:574.974997px;}
+.y52{bottom:582.274994px;}
+.y7a{bottom:593.325006px;}
+.y51{bottom:600.274994px;}
+.yd{bottom:606.475006px;}
+.y79{bottom:611.724997px;}
+.y32{bottom:618.975003px;}
+.y34{bottom:622.074994px;}
+.y78{bottom:630.074997px;}
+.y6{bottom:631.574997px;}
+.y2e{bottom:643.975006px;}
+.y77{bottom:648.075001px;}
+.y5e{bottom:666.075002px;}
+.y5f{bottom:666.874998px;}
+.y2c{bottom:695.674997px;}
+.y5b{bottom:696.324999px;}
+.y7c{bottom:699.975000px;}
+.y4{bottom:734.525001px;}
+.y5d{bottom:735.174998px;}
+.h1a{height:11.700000px;}
+.h24{height:11.850000px;}
+.hd{height:12.850001px;}
+.h12{height:13.450000px;}
+.h18{height:13.950000px;}
+.h25{height:14.300001px;}
+.h4{height:15.050000px;}
+.h8{height:18.000000px;}
+.h1f{height:18.250000px;}
+.h1c{height:18.549999px;}
+.h21{height:18.600000px;}
+.h20{height:18.650000px;}
+.h1d{height:18.750000px;}
+.h1e{height:19.100000px;}
+.h22{height:19.150000px;}
+.h23{height:19.250000px;}
+.h17{height:20.384766px;}
+.h2{height:20.650000px;}
+.h1b{height:23.296875px;}
+.hb{height:23.650000px;}
+.h29{height:24.750000px;}
+.h26{height:25.900000px;}
+.he{height:26.226562px;}
+.h13{height:26.400000px;}
+.hc{height:27.843750px;}
+.h7{height:29.140625px;}
+.h11{height:30.099998px;}
+.h27{height:30.500000px;}
+.h19{height:30.937500px;}
+.h5{height:32.054688px;}
+.h16{height:34.031250px;}
+.h9{height:34.968750px;}
+.h15{height:35.150002px;}
+.h3{height:49.500000px;}
+.hf{height:49.900002px;}
+.ha{height:53.700001px;}
+.h14{height:55.687500px;}
+.h28{height:59.299999px;}
+.h10{height:60.750000px;}
+.h6{height:73.650002px;}
+.h1{height:786.500000px;}
+.h0{height:792.000000px;}
+.w8{width:35.299995px;}
+.w13{width:46.700001px;}
+.w1b{width:47.049999px;}
+.w3{width:49.049999px;}
+.w4{width:53.750000px;}
+.w1c{width:66.199997px;}
+.w10{width:76.250000px;}
+.wa{width:85.699997px;}
+.w24{width:90.400002px;}
+.w15{width:91.750000px;}
+.wb{width:95.699997px;}
+.wc{width:98.699997px;}
+.we{width:101.199997px;}
+.w12{width:105.699997px;}
+.w7{width:118.299995px;}
+.w2a{width:121.000000px;}
+.w23{width:122.750008px;}
+.w1e{width:123.699997px;}
+.w1f{width:129.250000px;}
+.w11{width:132.250000px;}
+.w22{width:134.149994px;}
+.w25{width:134.949997px;}
+.w14{width:143.050003px;}
+.w1a{width:150.399994px;}
+.w1d{width:152.050003px;}
+.w29{width:156.300003px;}
+.w17{width:168.949997px;}
+.w20{width:198.700012px;}
+.wd{width:198.750000px;}
+.w9{width:202.300003px;}
+.w2b{width:225.850006px;}
+.w21{width:240.649994px;}
+.w2{width:251.949982px;}
+.w16{width:278.850006px;}
+.w5{width:287.549988px;}
+.wf{width:343.799988px;}
+.w26{width:415.649994px;}
+.w6{width:432.000000px;}
+.w19{width:445.799957px;}
+.w28{width:446.399994px;}
+.w27{width:447.000000px;}
+.w18{width:576.000000px;}
+.w1{width:582.500000px;}
+.w0{width:612.000000px;}
+.x3{left:0.000000px;}
+.x2{left:7.125000px;}
+.x0{left:9.000000px;}
+.xb{left:11.025000px;}
+.xd{left:12.825000px;}
+.x2f{left:14.175000px;}
+.x14{left:15.375000px;}
+.x29{left:29.775000px;}
+.x1d{left:32.775000px;}
+.x1a{left:52.275002px;}
+.x2b{left:58.875000px;}
+.x1f{left:63.625000px;}
+.x22{left:76.625000px;}
+.x1e{left:78.125000px;}
+.x5{left:88.525002px;}
+.x28{left:90.074997px;}
+.x24{left:96.125000px;}
+.x1c{left:98.125000px;}
+.x20{left:107.125000px;}
+.x15{left:109.074997px;}
+.x18{left:110.125000px;}
+.x19{left:111.474998px;}
+.x17{left:112.875000px;}
+.x1b{left:117.125000px;}
+.x23{left:118.625000px;}
+.xe{left:121.324997px;}
+.x13{left:122.625000px;}
+.x2e{left:125.125000px;}
+.x16{left:135.266006px;}
+.x25{left:138.207993px;}
+.x21{left:146.214005px;}
+.x2d{left:151.210999px;}
+.xf{left:154.925003px;}
+.x12{left:156.024994px;}
+.x2c{left:157.824005px;}
+.xa{left:166.574997px;}
+.x9{left:170.274994px;}
+.x26{left:185.675003px;}
+.x2a{left:193.074997px;}
+.x6{left:206.975006px;}
+.x7{left:208.925003px;}
+.xc{left:221.524994px;}
+.x1{left:266.075012px;}
+.x8{left:337.274994px;}
+.x27{left:340.375000px;}
+.x10{left:347.125000px;}
+.x11{left:389.274994px;}
+.x4{left:528.625000px;}
+@media print{
+.v0{vertical-align:0.000000pt;}
+.ls0{letter-spacing:0.000000pt;}
+.ws0{word-spacing:0.000000pt;}
+._1{margin-left:-2.816000pt;}
+._0{margin-left:-1.365333pt;}
+.fs6{font-size:37.333333pt;}
+.fs7{font-size:42.666667pt;}
+.fs4{font-size:48.000000pt;}
+.fs2{font-size:53.333333pt;}
+.fs1{font-size:58.666667pt;}
+.fs3{font-size:64.000000pt;}
+.fs0{font-size:85.333333pt;}
+.fs5{font-size:96.000000pt;}
+.y3{bottom:0.000000pt;}
+.y31{bottom:3.900002pt;}
+.y35{bottom:4.161332pt;}
+.y23{bottom:4.319997pt;}
+.y60{bottom:4.361333pt;}
+.y1e{bottom:4.377335pt;}
+.y18{bottom:4.444002pt;}
+.y16{bottom:4.445333pt;}
+.y13{bottom:4.648000pt;}
+.y33{bottom:4.660000pt;}
+.y66{bottom:4.686666pt;}
+.yc{bottom:4.726674pt;}
+.y5{bottom:5.009333pt;}
+.y27{bottom:5.243999pt;}
+.y69{bottom:5.270665pt;}
+.y6f{bottom:5.427999pt;}
+.y2{bottom:6.357333pt;}
+.y0{bottom:7.333333pt;}
+.y63{bottom:7.628001pt;}
+.ye{bottom:7.692000pt;}
+.y2b{bottom:7.987999pt;}
+.y72{bottom:8.854665pt;}
+.y49{bottom:9.044000pt;}
+.y5c{bottom:9.054667pt;}
+.y4b{bottom:9.110667pt;}
+.y42{bottom:9.177334pt;}
+.y3d{bottom:9.243999pt;}
+.y44{bottom:9.310666pt;}
+.y40{bottom:9.710667pt;}
+.y46{bottom:9.777334pt;}
+.y2d{bottom:9.787999pt;}
+.y74{bottom:10.227999pt;}
+.y30{bottom:15.808004pt;}
+.y22{bottom:18.635997pt;}
+.y15{bottom:18.843999pt;}
+.y12{bottom:20.554667pt;}
+.y65{bottom:20.593333pt;}
+.yb{bottom:20.633336pt;}
+.y68{bottom:24.358667pt;}
+.y6e{bottom:24.515996pt;}
+.y25{bottom:27.443998pt;}
+.y1d{bottom:29.044001pt;}
+.y2f{bottom:31.830668pt;}
+.y11{bottom:36.461334pt;}
+.ya{bottom:36.539998pt;}
+.y21{bottom:43.473333pt;}
+.y6d{bottom:43.670664pt;}
+.y9{bottom:52.446671pt;}
+.y1c{bottom:53.844002pt;}
+.y10{bottom:57.660001pt;}
+.y6c{bottom:62.758666pt;}
+.y20{bottom:68.310666pt;}
+.y8{bottom:68.353335pt;}
+.y7{bottom:84.260002pt;}
+.y3f{bottom:166.166634pt;}
+.y3e{bottom:190.633301pt;}
+.y3c{bottom:214.633367pt;}
+.y70{bottom:223.899984pt;}
+.y3a{bottom:238.699968pt;}
+.y3b{bottom:239.833350pt;}
+.y29{bottom:257.499966pt;}
+.y4c{bottom:267.699999pt;}
+.y6b{bottom:281.499985pt;}
+.y4a{bottom:291.499967pt;}
+.y28{bottom:291.966681pt;}
+.y48{bottom:315.300016pt;}
+.y24{bottom:320.900035pt;}
+.y26{bottom:320.966651pt;}
+.y47{bottom:339.099968pt;}
+.y45{bottom:362.966723pt;}
+.y2a{bottom:387.366651pt;}
+.y43{bottom:387.433350pt;}
+.y6a{bottom:396.699992pt;}
+.y41{bottom:411.366659pt;}
+.y1{bottom:428.033318pt;}
+.y39{bottom:435.033342pt;}
+.y38{bottom:439.366675pt;}
+.y67{bottom:454.300008pt;}
+.y50{bottom:461.966682pt;}
+.y1f{bottom:464.500000pt;}
+.y1b{bottom:478.966665pt;}
+.y4f{bottom:485.766675pt;}
+.y4e{bottom:510.300008pt;}
+.y71{bottom:518.433342pt;}
+.y4d{bottom:534.299993pt;}
+.y1a{bottom:553.899990pt;}
+.y36{bottom:558.366675pt;}
+.y37{bottom:560.900000pt;}
+.y19{bottom:579.300014pt;}
+.y5a{bottom:585.166674pt;}
+.y64{bottom:599.766675pt;}
+.y17{bottom:604.833340pt;}
+.y59{bottom:608.966667pt;}
+.y58{bottom:632.833341pt;}
+.y14{bottom:647.833326pt;}
+.y57{bottom:656.633349pt;}
+.y76{bottom:666.099983pt;}
+.y56{bottom:680.433317pt;}
+.y75{bottom:690.566650pt;}
+.y55{bottom:704.233325pt;}
+.yf{bottom:710.699987pt;}
+.y73{bottom:714.566676pt;}
+.y54{bottom:728.033338pt;}
+.y62{bottom:736.366661pt;}
+.y61{bottom:738.633338pt;}
+.y53{bottom:751.899991pt;}
+.y7b{bottom:766.633329pt;}
+.y52{bottom:776.366659pt;}
+.y7a{bottom:791.100009pt;}
+.y51{bottom:800.366659pt;}
+.yd{bottom:808.633341pt;}
+.y79{bottom:815.633329pt;}
+.y32{bottom:825.300004pt;}
+.y34{bottom:829.433325pt;}
+.y78{bottom:840.099996pt;}
+.y6{bottom:842.099996pt;}
+.y2e{bottom:858.633341pt;}
+.y77{bottom:864.100001pt;}
+.y5e{bottom:888.100002pt;}
+.y5f{bottom:889.166664pt;}
+.y2c{bottom:927.566663pt;}
+.y5b{bottom:928.433332pt;}
+.y7c{bottom:933.300001pt;}
+.y4{bottom:979.366667pt;}
+.y5d{bottom:980.233331pt;}
+.h1a{height:15.600000pt;}
+.h24{height:15.800001pt;}
+.hd{height:17.133335pt;}
+.h12{height:17.933333pt;}
+.h18{height:18.600000pt;}
+.h25{height:19.066668pt;}
+.h4{height:20.066667pt;}
+.h8{height:24.000000pt;}
+.h1f{height:24.333333pt;}
+.h1c{height:24.733332pt;}
+.h21{height:24.800001pt;}
+.h20{height:24.866666pt;}
+.h1d{height:25.000000pt;}
+.h1e{height:25.466667pt;}
+.h22{height:25.533333pt;}
+.h23{height:25.666667pt;}
+.h17{height:27.179688pt;}
+.h2{height:27.533333pt;}
+.h1b{height:31.062500pt;}
+.hb{height:31.533333pt;}
+.h29{height:33.000000pt;}
+.h26{height:34.533333pt;}
+.he{height:34.968750pt;}
+.h13{height:35.199999pt;}
+.hc{height:37.125000pt;}
+.h7{height:38.854167pt;}
+.h11{height:40.133331pt;}
+.h27{height:40.666667pt;}
+.h19{height:41.250000pt;}
+.h5{height:42.739583pt;}
+.h16{height:45.375000pt;}
+.h9{height:46.625000pt;}
+.h15{height:46.866669pt;}
+.h3{height:66.000000pt;}
+.hf{height:66.533335pt;}
+.ha{height:71.600001pt;}
+.h14{height:74.250000pt;}
+.h28{height:79.066666pt;}
+.h10{height:81.000000pt;}
+.h6{height:98.200002pt;}
+.h1{height:1048.666667pt;}
+.h0{height:1056.000000pt;}
+.w8{width:47.066661pt;}
+.w13{width:62.266668pt;}
+.w1b{width:62.733332pt;}
+.w3{width:65.399999pt;}
+.w4{width:71.666667pt;}
+.w1c{width:88.266663pt;}
+.w10{width:101.666667pt;}
+.wa{width:114.266663pt;}
+.w24{width:120.533335pt;}
+.w15{width:122.333333pt;}
+.wb{width:127.599996pt;}
+.wc{width:131.599996pt;}
+.we{width:134.933329pt;}
+.w12{width:140.933329pt;}
+.w7{width:157.733327pt;}
+.w2a{width:161.333333pt;}
+.w23{width:163.666677pt;}
+.w1e{width:164.933329pt;}
+.w1f{width:172.333333pt;}
+.w11{width:176.333333pt;}
+.w22{width:178.866659pt;}
+.w25{width:179.933329pt;}
+.w14{width:190.733337pt;}
+.w1a{width:200.533325pt;}
+.w1d{width:202.733337pt;}
+.w29{width:208.400004pt;}
+.w17{width:225.266663pt;}
+.w20{width:264.933350pt;}
+.wd{width:265.000000pt;}
+.w9{width:269.733337pt;}
+.w2b{width:301.133341pt;}
+.w21{width:320.866659pt;}
+.w2{width:335.933309pt;}
+.w16{width:371.800008pt;}
+.w5{width:383.399984pt;}
+.wf{width:458.399984pt;}
+.w26{width:554.199992pt;}
+.w6{width:576.000000pt;}
+.w19{width:594.399943pt;}
+.w28{width:595.199992pt;}
+.w27{width:596.000000pt;}
+.w18{width:768.000000pt;}
+.w1{width:776.666667pt;}
+.w0{width:816.000000pt;}
+.x3{left:0.000000pt;}
+.x2{left:9.500000pt;}
+.x0{left:12.000000pt;}
+.xb{left:14.700000pt;}
+.xd{left:17.100000pt;}
+.x2f{left:18.900000pt;}
+.x14{left:20.500000pt;}
+.x29{left:39.699999pt;}
+.x1d{left:43.699999pt;}
+.x1a{left:69.700002pt;}
+.x2b{left:78.500000pt;}
+.x1f{left:84.833333pt;}
+.x22{left:102.166667pt;}
+.x1e{left:104.166667pt;}
+.x5{left:118.033335pt;}
+.x28{left:120.099996pt;}
+.x24{left:128.166667pt;}
+.x1c{left:130.833333pt;}
+.x20{left:142.833333pt;}
+.x15{left:145.433329pt;}
+.x18{left:146.833333pt;}
+.x19{left:148.633331pt;}
+.x17{left:150.500000pt;}
+.x1b{left:156.166667pt;}
+.x23{left:158.166667pt;}
+.xe{left:161.766663pt;}
+.x13{left:163.500000pt;}
+.x2e{left:166.833333pt;}
+.x16{left:180.354675pt;}
+.x25{left:184.277323pt;}
+.x21{left:194.952006pt;}
+.x2d{left:201.614665pt;}
+.xf{left:206.566671pt;}
+.x12{left:208.033325pt;}
+.x2c{left:210.432007pt;}
+.xa{left:222.099996pt;}
+.x9{left:227.033325pt;}
+.x26{left:247.566671pt;}
+.x2a{left:257.433329pt;}
+.x6{left:275.966675pt;}
+.x7{left:278.566671pt;}
+.xc{left:295.366659pt;}
+.x1{left:354.766683pt;}
+.x8{left:449.699992pt;}
+.x27{left:453.833333pt;}
+.x10{left:462.833333pt;}
+.x11{left:519.033325pt;}
+.x4{left:704.833333pt;}
+}
+</style>
+<script>
+(function(){function b(a,b,e,f){var c=(a.className||"").split(/\s+/g);""===c[0]&&c.shift();var d=c.indexOf(b);0>d&&e&&c.push(b);0<=d&&f&&c.splice(d,1);a.className=c.join(" ");return 0<=d}if(!("classList"in document.createElement("div"))){var e={add:function(a){b(this.element,a,!0,!1)},contains:function(a){return b(this.element,a,!1,!1)},remove:function(a){b(this.element,a,!1,!0)},toggle:function(a){b(this.element,a,!0,!0)}};Object.defineProperty(HTMLElement.prototype,"classList",{get:function(){if(this._classList)return this._classList;
+var a=Object.create(e,{element:{value:this,writable:!1,enumerable:!0}});Object.defineProperty(this,"_classList",{value:a,writable:!1,enumerable:!1});return a},enumerable:!0})}})();
+</script>
+<script>
+    (function(){
+var theViewer=window.theViewer=window.theViewer||{},CSS_CLASS_NAMES={page_frame:"pf",page_content_box:"pc",page_data:"pi",background_image:"bi",link:"l",input_radio:"ir",__dummy__:"no comma"},DEFAULT_CONFIG={container_id:"page-container",sidebar_id:"sidebar",outline_id:"outline",loading_indicator_cls:"loading-indicator",preload_pages:3,render_timeout:100,scale_step:0.9,key_handler:!0,hashchange_handler:!0,view_history_handler:!0,__dummy__:"no comma"},EPS=1E-6;
+function invert(a){var b=a[0]*a[3]-a[1]*a[2];return[a[3]/b,-a[1]/b,-a[2]/b,a[0]/b,(a[2]*a[5]-a[3]*a[4])/b,(a[1]*a[4]-a[0]*a[5])/b]}function transform(a,b){return[a[0]*b[0]+a[2]*b[1]+a[4],a[1]*b[0]+a[3]*b[1]+a[5]]}function get_page_number(a){return parseInt(a.getAttribute("data-page-no"),16)}function disable_dragstart(a){for(var b=0,c=a.length;b<c;++b)a[b].addEventListener("dragstart",function(){return!1},!1)}
+function clone_and_extend_objs(a){for(var b={},c=0,e=arguments.length;c<e;++c){var h=arguments[c],d;for(d in h)h.hasOwnProperty(d)&&(b[d]=h[d])}return b}
+function Page(a){if(a){this.shown=this.loaded=!1;this.page=a;this.num=get_page_number(a);this.original_height=a.clientHeight;this.original_width=a.clientWidth;var b=a.getElementsByClassName(CSS_CLASS_NAMES.page_content_box)[0];b&&(this.content_box=b,this.original_scale=this.cur_scale=this.original_height/b.clientHeight,this.page_data=JSON.parse(a.getElementsByClassName(CSS_CLASS_NAMES.page_data)[0].getAttribute("data-data")),this.ctm=this.page_data.ctm,this.ictm=invert(this.ctm),this.loaded=!0)}}
+Page.prototype={hide:function(){this.loaded&&this.shown&&(this.content_box.classList.remove("opened"),this.shown=!1)},show:function(){this.loaded&&!this.shown&&(this.content_box.classList.add("opened"),this.shown=!0)},rescale:function(a){this.cur_scale=0===a?this.original_scale:a;this.loaded&&(a=this.content_box.style,a.msTransform=a.webkitTransform=a.transform="scale("+this.cur_scale.toFixed(3)+")");a=this.page.style;a.height=this.original_height*this.cur_scale+"px";a.width=this.original_width*this.cur_scale+
+"px"},view_position:function(){var a=this.page,b=a.parentNode;return[b.scrollLeft-a.offsetLeft-a.clientLeft,b.scrollTop-a.offsetTop-a.clientTop]},height:function(){return this.page.clientHeight},width:function(){return this.page.clientWidth}};function Viewer(a){this.config=clone_and_extend_objs(DEFAULT_CONFIG,0<arguments.length?a:{});this.pages_loading=[];this.init_before_loading_content();var b=this;document.addEventListener("DOMContentLoaded",function(){b.init_after_loading_content()},!1)}
+Viewer.prototype={scale:1,cur_page_idx:0,first_page_idx:0,init_before_loading_content:function(){this.pre_hide_pages()},initialize_radio_button:function(){for(var a=document.getElementsByClassName(CSS_CLASS_NAMES.input_radio),b=0;b<a.length;b++)a[b].addEventListener("click",function(){this.classList.toggle("checked")})},init_after_loading_content:function(){this.sidebar=document.getElementById(this.config.sidebar_id);this.outline=document.getElementById(this.config.outline_id);this.container=document.getElementById(this.config.container_id);
+this.loading_indicator=document.getElementsByClassName(this.config.loading_indicator_cls)[0];for(var a=!0,b=this.outline.childNodes,c=0,e=b.length;c<e;++c)if("ul"===b[c].nodeName.toLowerCase()){a=!1;break}a||this.sidebar.classList.add("opened");this.find_pages();if(0!=this.pages.length){disable_dragstart(document.getElementsByClassName(CSS_CLASS_NAMES.background_image));this.config.key_handler&&this.register_key_handler();var h=this;this.config.hashchange_handler&&window.addEventListener("hashchange",
+function(a){h.navigate_to_dest(document.location.hash.substring(1))},!1);this.config.view_history_handler&&window.addEventListener("popstate",function(a){a.state&&h.navigate_to_dest(a.state)},!1);this.container.addEventListener("scroll",function(){h.update_page_idx();h.schedule_render(!0)},!1);[this.container,this.outline].forEach(function(a){a.addEventListener("click",h.link_handler.bind(h),!1)});this.initialize_radio_button();this.render()}},find_pages:function(){for(var a=[],b={},c=this.container.childNodes,
+e=0,h=c.length;e<h;++e){var d=c[e];d.nodeType===Node.ELEMENT_NODE&&d.classList.contains(CSS_CLASS_NAMES.page_frame)&&(d=new Page(d),a.push(d),b[d.num]=a.length-1)}this.pages=a;this.page_map=b},load_page:function(a,b,c){var e=this.pages;if(!(a>=e.length||(e=e[a],e.loaded||this.pages_loading[a]))){var e=e.page,h=e.getAttribute("data-page-url");if(h){this.pages_loading[a]=!0;var d=e.getElementsByClassName(this.config.loading_indicator_cls)[0];"undefined"===typeof d&&(d=this.loading_indicator.cloneNode(!0),
+d.classList.add("active"),e.appendChild(d));var f=this,g=new XMLHttpRequest;g.open("GET",h,!0);g.onload=function(){if(200===g.status||0===g.status){var b=document.createElement("div");b.innerHTML=g.responseText;for(var d=null,b=b.childNodes,e=0,h=b.length;e<h;++e){var p=b[e];if(p.nodeType===Node.ELEMENT_NODE&&p.classList.contains(CSS_CLASS_NAMES.page_frame)){d=p;break}}b=f.pages[a];f.container.replaceChild(d,b.page);b=new Page(d);f.pages[a]=b;b.hide();b.rescale(f.scale);disable_dragstart(d.getElementsByClassName(CSS_CLASS_NAMES.background_image));
+f.schedule_render(!1);c&&c(b)}delete f.pages_loading[a]};g.send(null)}void 0===b&&(b=this.config.preload_pages);0<--b&&(f=this,setTimeout(function(){f.load_page(a+1,b)},0))}},pre_hide_pages:function(){var a="@media screen{."+CSS_CLASS_NAMES.page_content_box+"{display:none;}}",b=document.createElement("style");b.styleSheet?b.styleSheet.cssText=a:b.appendChild(document.createTextNode(a));document.head.appendChild(b)},render:function(){for(var a=this.container,b=a.scrollTop,c=a.clientHeight,a=b-c,b=
+b+c+c,c=this.pages,e=0,h=c.length;e<h;++e){var d=c[e],f=d.page,g=f.offsetTop+f.clientTop,f=g+f.clientHeight;g<=b&&f>=a?d.loaded?d.show():this.load_page(e):d.hide()}},update_page_idx:function(){var a=this.pages,b=a.length;if(!(2>b)){for(var c=this.container,e=c.scrollTop,c=e+c.clientHeight,h=-1,d=b,f=d-h;1<f;){var g=h+Math.floor(f/2),f=a[g].page;f.offsetTop+f.clientTop+f.clientHeight>=e?d=g:h=g;f=d-h}this.first_page_idx=d;for(var g=h=this.cur_page_idx,k=0;d<b;++d){var f=a[d].page,l=f.offsetTop+f.clientTop,
+f=f.clientHeight;if(l>c)break;f=(Math.min(c,l+f)-Math.max(e,l))/f;if(d===h&&Math.abs(f-1)<=EPS){g=h;break}f>k&&(k=f,g=d)}this.cur_page_idx=g}},schedule_render:function(a){if(void 0!==this.render_timer){if(!a)return;clearTimeout(this.render_timer)}var b=this;this.render_timer=setTimeout(function(){delete b.render_timer;b.render()},this.config.render_timeout)},register_key_handler:function(){var a=this;window.addEventListener("DOMMouseScroll",function(b){if(b.ctrlKey){b.preventDefault();var c=a.container,
+e=c.getBoundingClientRect(),c=[b.clientX-e.left-c.clientLeft,b.clientY-e.top-c.clientTop];a.rescale(Math.pow(a.config.scale_step,b.detail),!0,c)}},!1);window.addEventListener("keydown",function(b){var c=!1,e=b.ctrlKey||b.metaKey,h=b.altKey;switch(b.keyCode){case 61:case 107:case 187:e&&(a.rescale(1/a.config.scale_step,!0),c=!0);break;case 173:case 109:case 189:e&&(a.rescale(a.config.scale_step,!0),c=!0);break;case 48:e&&(a.rescale(0,!1),c=!0);break;case 33:h?a.scroll_to(a.cur_page_idx-1):a.container.scrollTop-=
+a.container.clientHeight;c=!0;break;case 34:h?a.scroll_to(a.cur_page_idx+1):a.container.scrollTop+=a.container.clientHeight;c=!0;break;case 35:a.container.scrollTop=a.container.scrollHeight;c=!0;break;case 36:a.container.scrollTop=0,c=!0}c&&b.preventDefault()},!1)},rescale:function(a,b,c){var e=this.scale;this.scale=a=0===a?1:b?e*a:a;c||(c=[0,0]);b=this.container;c[0]+=b.scrollLeft;c[1]+=b.scrollTop;for(var h=this.pages,d=h.length,f=this.first_page_idx;f<d;++f){var g=h[f].page;if(g.offsetTop+g.clientTop>=
+c[1])break}g=f-1;0>g&&(g=0);var g=h[g].page,k=g.clientWidth,f=g.clientHeight,l=g.offsetLeft+g.clientLeft,m=c[0]-l;0>m?m=0:m>k&&(m=k);k=g.offsetTop+g.clientTop;c=c[1]-k;0>c?c=0:c>f&&(c=f);for(f=0;f<d;++f)h[f].rescale(a);b.scrollLeft+=m/e*a+g.offsetLeft+g.clientLeft-m-l;b.scrollTop+=c/e*a+g.offsetTop+g.clientTop-c-k;this.schedule_render(!0)},fit_width:function(){var a=this.cur_page_idx;this.rescale(this.container.clientWidth/this.pages[a].width(),!0);this.scroll_to(a)},fit_height:function(){var a=this.cur_page_idx;
+this.rescale(this.container.clientHeight/this.pages[a].height(),!0);this.scroll_to(a)},get_containing_page:function(a){for(;a;){if(a.nodeType===Node.ELEMENT_NODE&&a.classList.contains(CSS_CLASS_NAMES.page_frame)){a=get_page_number(a);var b=this.page_map;return a in b?this.pages[b[a]]:null}a=a.parentNode}return null},link_handler:function(a){var b=a.target,c=b.getAttribute("data-dest-detail");if(c){if(this.config.view_history_handler)try{var e=this.get_current_view_hash();window.history.replaceState(e,
+"","#"+e);window.history.pushState(c,"","#"+c)}catch(h){}this.navigate_to_dest(c,this.get_containing_page(b));a.preventDefault()}},navigate_to_dest:function(a,b){try{var c=JSON.parse(a)}catch(e){return}if(c instanceof Array){var h=c[0],d=this.page_map;if(h in d){for(var f=d[h],h=this.pages[f],d=2,g=c.length;d<g;++d){var k=c[d];if(null!==k&&"number"!==typeof k)return}for(;6>c.length;)c.push(null);var g=b||this.pages[this.cur_page_idx],d=g.view_position(),d=transform(g.ictm,[d[0],g.height()-d[1]]),
+g=this.scale,l=[0,0],m=!0,k=!1,n=this.scale;switch(c[1]){case "XYZ":l=[null===c[2]?d[0]:c[2]*n,null===c[3]?d[1]:c[3]*n];g=c[4];if(null===g||0===g)g=this.scale;k=!0;break;case "Fit":case "FitB":l=[0,0];k=!0;break;case "FitH":case "FitBH":l=[0,null===c[2]?d[1]:c[2]*n];k=!0;break;case "FitV":case "FitBV":l=[null===c[2]?d[0]:c[2]*n,0];k=!0;break;case "FitR":l=[c[2]*n,c[5]*n],m=!1,k=!0}if(k){this.rescale(g,!1);var p=this,c=function(a){l=transform(a.ctm,l);m&&(l[1]=a.height()-l[1]);p.scroll_to(f,l)};h.loaded?
+c(h):(this.load_page(f,void 0,c),this.scroll_to(f))}}}},scroll_to:function(a,b){var c=this.pages;if(!(0>a||a>=c.length)){c=c[a].view_position();void 0===b&&(b=[0,0]);var e=this.container;e.scrollLeft+=b[0]-c[0];e.scrollTop+=b[1]-c[1]}},get_current_view_hash:function(){var a=[],b=this.pages[this.cur_page_idx];a.push(b.num);a.push("XYZ");var c=b.view_position(),c=transform(b.ictm,[c[0],b.height()-c[1]]);a.push(c[0]/this.scale);a.push(c[1]/this.scale);a.push(this.scale);return JSON.stringify(a)}};
+theViewer.Viewer=Viewer;})();
+
+</script>
+<script>
+try{
+theViewer.defaultViewer = new theViewer.Viewer({});
+}catch(e){}
+</script>
+<title></title>
+</head>
+<body>
+<div id="sidebar">
+<div id="outline">
+</div>
+</div>
+<div id="page-container">
+<div id="pf1" class="pf w0 h0" data-page-no="1">
+    <div class="pc pc1 w0 h0">
+        <img class="bi x0 y0 w1 h1" alt="" src="https://i.ibb.co/HzhDHT2/bg1.png"/>
+        <div class="c x1 y1 w2 h2">
+            <div class="t m0 x2 h3 y2 ff1 fs0 fc0 sc0 ls0 ws0">L<span class="_ _0"></span>T<span class="_ _0"></span>SA<span class="_ _0"></span> <span class="_ _0"></span>B<span class="_ _1"></span>U<span class="_ _1"></span>DG<span class="_ _1"></span>ET<span class="_ _1"></span>AR<span class="_ _1"></span>Y<span class="_ _1"></span> PROPOSAL</div>
+        </div>
+    </div>
+    <div class="pi" data-data='{"ctm":[1.000000,0.000000,0.000000,1.000000,0.000000,0.000000]}'></div>
+</div>
+<div id="pf2" class="pf w0 h0" data-page-no="2">
+    <div class="pc pc2 w0 h0">
+        <img class="bi x3 y3 w0 h0" alt="" src="https://i.ibb.co/51RSvds/bg2.png"/>
+        <div class="c x4 y4 w3 h4">
+            <div class="t m0 x2 h5 y5 ff2 fs1 fc0 sc0 ls0 ws0">Page 1</div>
+        </div>
+        <div class="c x5 y6 w4 h6">
+            <div class="t m0 x2 h7 y7 ff2 fs2 fc0 sc0 ls0 ws0">Date: </div>
+            <div class="t m0 x2 h7 y8 ff2 fs2 fc0 sc0 ls0 ws0">Name: </div>
+            <div class="t m0 x2 h7 y9 ff2 fs2 fc0 sc0 ls0 ws0">Title: </div>
+            <div class="t m0 x2 h7 ya ff2 fs2 fc0 sc0 ls0 ws0">Entity: </div>
+            <div class="t m0 x2 h7 yb ff2 fs2 fc0 sc0 ls0 ws0">Address: </div>
+            <div class="t m0 x2 h7 yc ff2 fs2 fc0 sc0 ls0 ws0">Address:</div>
+        </div>
+        <div class="c x6 yd w5 h8">
+            <div class="t m0 x2 h9 ye ff2 fs3 fc0 sc0 ls0 ws0">RE: Budgetary Lo<span class="_ _1"></span>ng<span class="_ _0"></span>-T<span class="_ _1"></span>er<span class="_ _0"></span>m <span class="_ _1"></span>ServiceAgreement</div>
+        </div>
+        <div class="c x5 yf w6 ha">
+            <div class="t m0 x2 h7 y10 ff2 fs2 fc0 sc0 ls0 ws0">Dear Customer,</div>
+            <div class="t m0 x2 h7 y11 ff2 fs2 fc0 sc0 ls0 ws0">We are pleased to submit a budgetary Lo<span class="_ _1"></span>ng<span class="_ _1"></span>-T<span class="_ _1"></span>er<span class="_ _1"></span>m <span class="_ _1"></span>Service Agreement (LT<span class="_ _1"></span>SA<span class="_ _1"></span>) proposal for your </div>
+            <div class="t m0 x2 h7 y12 ff2 fs2 fc0 sc0 ls0 ws0">consideration. This proposal is strictly budgetary and will need to be revised when the project </div>
+            <div class="t m0 x2 h7 y13 ff2 fs2 fc0 sc0 ls0 ws0">moves to final stages or when there is a need for firm numbers.</div>
+        </div>
+        <div class="c x5 y14 w7 hb">
+            <div class="t m0 x2 hc y15 ff1 fs4 fc0 sc0 ls0 ws0">Project Name:</div>
+            <div class="t m0 x2 hc y16 ff1 fs4 fc0 sc0 ls0 ws0">Address: City, State, Zip</div>
+        </div>
+        <div class="c x5 y17 w8 hd">
+            <div class="t m0 x2 hc y18 ff1 fs4 fc0 sc0 ls0 ws0">Type</div>
+        </div>
+        <div class="c x7 y17 w9 hd">
+            <div class="t m0 x2 he y18 ff2 fs4 fc0 sc0 ls0 ws0">JMS 620 J01 - #, # # # kW - #, # # # kV - FUEL</div>
+        </div>
+        <div class="c x5 y19 wa hd">
+            <div class="t m0 x2 hc y18 ff1 fs4 fc0 sc0 ls0 ws0">Equipment OPH:</div>
+        </div>
+        <div class="c x7 y19 wb hd">
+            <div class="t m0 x2 hc y18 ff1 fs4 fc0 sc0 ls0 ws0">0 <span class="ff2">at time of proposal</span>
+            </div>
+        </div>
+        <div class="c x5 y1a wc hd">
+            <div class="t m0 x2 hc y18 ff1 fs4 fc0 sc0 ls0 ws0">Te<span class="_ _1"></span>rm<span class="_ _0"></span> of Agreement:</div></div><div class="c x7 y1a wd hd"><div class="t m0 x2 he y18 ff2 fs4 fc0 sc0 ls0 ws0"># # Ye<span class="_ _1"></span>ar<span class="_ _0"></span>s <span class="_ _1"></span>~ 8,000 year - # # #, # # # OPH total</div>
+        </div>
+        <div class="c x5 y1b we hf">
+            <div class="t m0 x2 hc y1c ff1 fs4 fc0 sc0 ls0 ws0">Validity of Proposal:</div>
+            <div class="t m0 x2 hc y1d ff1 fs4 fc0 sc0 ls0 ws0">Freight and Duty: </div>
+            <div class="t m0 x2 hc y1e ff1 fs4 fc0 sc0 ls0 ws0">Taxes, Permits and</div>
+        </div>
+        <div class="c x7 y1f wf h10">
+            <div class="t m0 x2 he y20 ff2 fs4 fc0 sc0 ls0 ws0">The proposal is valid for sixty (60) days from the date of this proposal. </div>
+            <div class="t m0 x2 he y21 ff2 fs4 fc0 sc0 ls0 ws0">Ocean and domestic inland freight charges are included.
+            </div>
+            <div class="t m0 x2 he y22 ff2 fs4 fc0 sc0 ls0 ws0">U.S. Customs Duty is included however no allowances are made for local, state, or </div>
+            <div class="t m0 x2 he y23 ff2 fs4 fc0 sc0 ls0 ws0">Federal taxes, permits, and fees.</div>
+        </div>
+        <div class="c x8 y24 w10 h11">
+            <div class="t m0 x2 hc y25 ff1 fs4 fc0 sc0 ls0 ws0">$/OPH/ Engine</div>
+            <div class="t m0 x2 hc y16 ff1 fs4 fc0 sc0 ls0 ws0">$# #.# #</div>
+        </div>
+        <div class="c x9 y26 w11 h12">
+            <div class="t m0 x2 hc y27 ff1 fs4 fc0 sc0 ls0 ws0">Gold LTSA Program:</div>
+        </div>
+        <div class="c x9 y28 w12 hd">
+            <div class="t m0 x2 hc y18 ff1 fs4 fc0 sc0 ls0 ws0">Silver LT<span class="_ _1"></span>SA<span class="_ _0"></span> Program:</div>
+        </div>
+        <div class="c x8 y28 w13 hd">
+            <div class="t m0 x2 hc y18 ff1 fs4 fc0 sc0 ls0 ws0">$# #.# #</div>
+        </div>
+        <div class="c x9 y29 w14 hd">
+            <div class="t m0 x2 hc y18 ff1 fs4 fc0 sc0 ls0 ws0">Major Overhaul:</div>
+        </div>
+        <div class="c x8 y29 w15 hd">
+            <div class="t m0 x2 hc y18 ff1 fs4 fc0 sc0 ls0 ws0">$# # # # # # #.# # #</div>
+        </div>
+        <div class="c xa y2a w16 h13">
+            <div class="t m0 xb h14 y2b ff1 fs5 fc0 sc0 ls0 ws0">LTSA PROGRAMS &amp; PRICING</div>
+        </div>
+        <div class="c xc y2c w17 h13">
+            <div class="t m0 xd h14 y2d ff1 fs5 fc0 sc0 ls0 ws0">LTSA SUMMARY</div>
+        </div>
+    </div>
+    <div class="pi" data-data='{"ctm":[1.000000,0.000000,0.000000,1.000000,0.000000,0.000000]}'></div>
+</div>
+<div id="pf3" class="pf w0 h0" data-page-no="3">
+    <div class="pc pc3 w0 h0">
+        <img class="bi x3 y3 w18 h0" alt="" src="https://i.ibb.co/fQ7Y4Sg/bg3.png"/>
+        <div class="c x4 y4 w3 h4">
+            <div class="t m0 x2 h5 y5 ff2 fs1 fc0 sc0 ls0 ws0">Page 2</div>
+        </div>
+        <div class="c xe y2e w19 h15">
+            <div class="t m0 x2 h16 y2f ff1 fs1 fc0 sc0 ls0 ws0">Each program, combined with Balance of Plant Coverage, includes Field and Shop </div>
+            <div class="t m0 x2 h16 y30 ff1 fs1 fc0 sc0 ls0 ws0">Labor, Parts and Materials for the engine generator set and the following:</div>
+            <div class="t m0 x2 h17 y31 ff3 fs6 fc0 sc0 ls0 ws0">(Please refer to the Included and Excluded columns)</div>
+        </div>
+        <div class="c xf y32 w1a h18">
+            <div class="t m0 x2 h19 y33 ff1 fs2 fc1 sc0 ls0 ws0">ADDITIONAL COMPONENTS</div>
+        </div>
+        <div class="c x10 y34 w1b h1a">
+            <div class="t m0 x2 h1b y35 ff4 fs7 fc0 sc0 ls0 ws0">Included</div>
+        </div>
+        <div class="c x11 y34 w1c h1a">
+            <div class="t m0 x2 h1b y35 ff4 fs7 fc0 sc0 ls0 ws0">NOT Included</div>
+        </div>
+        <div class="c xf y36 w1d h18">
+            <div class="t m0 x2 h19 y33 ff1 fs2 fc1 sc0 ls0 ws0">ELECTRICAL COMPONENTS</div>
+        </div>
+        <div class="c x10 y37 w1b h1a">
+            <div class="t m0 x2 h1b y35 ff4 fs7 fc0 sc0 ls0 ws0">Included</div>
+        </div>
+        <div class="c x11 y37 w1c h1a">
+            <div class="t m0 x2 h1b y35 ff4 fs7 fc0 sc0 ls0 ws0">NOT Included</div>
+        </div>
+        <div class="c x10 y38 w1b h1a">
+            <div class="t m0 x2 h1b y35 ff4 fs7 fc0 sc0 ls0 ws0">Included</div>
+        </div>
+        <div class="c x11 y38 w1c h1a">
+            <div class="t m0 x2 h1b y35 ff4 fs7 fc0 sc0 ls0 ws0">NOT Included</div>
+        </div>
+        <div class="c xf y39 w1e h18">
+            <div class="t m0 x2 h19 y33 ff1 fs2 fc1 sc0 ls0 ws0">STANDARD SERVICES</div>
+        </div>
+        <div class="c xf y3a w1f h18">
+            <div class="t m0 x2 h19 y33 ff1 fs2 fc1 sc0 ls0 ws0">ADDITIONAL SERVICES</div>
+        </div>
+        <div class="c x10 y3b w1b h1a">
+            <div class="t m0 x2 h1b y35 ff4 fs7 fc0 sc0 ls0 ws0">Included</div>
+        </div>
+        <div class="c x11 y3b w1c h1a">
+            <div class="t m0 x2 h1b y35 ff4 fs7 fc0 sc0 ls0 ws0">NOT Included</div>
+        </div>
+        <div class="c x12 y3c w20 h1c">
+            <div class="t m0 x13 hc y3d ff1 fs4 fc0 sc0 ls0 ws0">Major Overhaul</div>
+        </div>
+        <div class="c x12 y3e w20 h1d">
+            <div class="t m0 x14 hc y3d ff1 fs4 fc0 sc0 ls0 ws0">Generator Reconditioning (@ Overhaul)</div>
+        </div>
+        <div class="c x12 y3f w20 h1e">
+            <div class="t m0 x15 hc y40 ff1 fs4 fc0 sc0 ls0 ws0">1,000 OPH Service</div>
+        </div>
+        <div class="c x12 y41 w20 h1f">
+            <div class="t m0 x16 hc y42 ff1 fs4 fc0 sc0 ls0 ws0">Oil Changes</div>
+        </div>
+        <div class="c x12 y43 w20 h1d">
+            <div class="t m0 x17 hc y44 ff1 fs4 fc0 sc0 ls0 ws0">Coolant Changes</div>
+        </div>
+        <div class="c x12 y45 w20 h1e">
+            <div class="t m0 x18 hc y46 ff1 fs4 fc0 sc0 ls0 ws0">Vibration Analysis</div>
+        </div>
+        <div class="c x12 y47 w20 h20">
+            <div class="t m0 x19 hc y42 ff1 fs4 fc0 sc0 ls0 ws0">Annual Alignment</div>
+        </div>
+        <div class="c x12 y48 w20 h21">
+            <div class="t m0 x1a hc y49 ff1 fs4 fc0 sc0 ls0 ws0">Emissions Testing (Verification)</div>
+        </div>
+        <div class="c x12 y4a w20 h21">
+            <div class="t m0 xe hc y4b ff1 fs4 fc0 sc0 ls0 ws0">Minor Overhaul</div>
+        </div>
+        <div class="c x12 y4c w20 h21">
+            <div class="t m0 x1b hc y49 ff1 fs4 fc0 sc0 ls0 ws0">Engine Batteries</div>
+        </div>
+        <div class="c x12 y4d w20 h1c">
+            <div class="t m0 x1c hc y3d ff1 fs4 fc0 sc0 ls0 ws0">Master Control Panel</div>
+        </div>
+        <div class="c x12 y4e w20 h1d">
+            <div class="t m0 x1d hc y3d ff1 fs4 fc0 sc0 ls0 ws0">Generator Set Motor Control Center</div>
+        </div>
+        <div class="c x12 y4f w20 h22">
+            <div class="t m0 x1e hc y46 ff1 fs4 fc0 sc0 ls0 ws0">Generator Circuit Breaker</div>
+        </div>
+        <div class="c x12 y50 w20 h21">
+            <div class="t m0 x1f hc y4b ff1 fs4 fc0 sc0 ls0 ws0">Differential/Protective Relays</div>
+        </div>
+        <div class="c x12 y51 w20 h23">
+            <div class="t m0 x20 hc y42 ff1 fs4 fc0 sc0 ls0 ws0">Container Package</div>
+        </div>
+        <div class="c x12 y52 w20 h1d">
+            <div class="t m0 x21 hc y3d ff1 fs4 fc0 sc0 ls0 ws0">Radiators</div>
+        </div>
+        <div class="c x12 y53 w20 h1e">
+            <div class="t m0 x1c hc y40 ff1 fs4 fc0 sc0 ls0 ws0">Aux./Radiator Pumps</div>
+        </div>
+        <div class="c x12 y54 w20 h20">
+            <div class="t m0 x1a hc y4b ff1 fs4 fc0 sc0 ls0 ws0">Cooling System Electric Motors</div>
+        </div>
+        <div class="c x12 y55 w20 h21">
+            <div class="t m0 x22 hc y49 ff1 fs4 fc0 sc0 ls0 ws0">Heat Recovery Equipment</div>
+        </div>
+        <div class="c x12 y56 w20 h21">
+            <div class="t m0 x23 hc y49 ff1 fs4 fc0 sc0 ls0 ws0">SCR/Oxicatalyst</div>
+        </div>
+        <div class="c x12 y57 w20 h21">
+            <div class="t m0 x20 hc y49 ff1 fs4 fc0 sc0 ls0 ws0">SCR Urea Supplied</div>
+        </div>
+        <div class="c x12 y58 w20 h21">
+            <div class="t m0 x22 hc y49 ff1 fs4 fc0 sc0 ls0 ws0">Pre-Chamber Compressor</div>
+        </div>
+        <div class="c x12 y59 w20 h20">
+            <div class="t m0 x24 hc y4b ff1 fs4 fc0 sc0 ls0 ws0">Gas Cleaning System</div>
+        </div>
+        <div class="c x12 y5a w20 h21">
+            <div class="t m0 x25 hc y4b ff1 fs4 fc0 sc0 ls0 ws0">Gas Blower</div>
+        </div>
+        <div class="c x26 y5b w21 h13">
+            <div class="t m0 xd h14 y5c ff1 fs5 fc0 sc0 ls0 ws0">SCOPE OF AGREEMENT</div>
+        </div>
+    </div>
+    <div class="pi" data-data='{"ctm":[1.000000,0.000000,0.000000,1.000000,0.000000,0.000000]}'></div>
+</div>
+<div id="pf4" class="pf w0 h0" data-page-no="4">
+    <div class="pc pc4 w0 h0"
+    ><img class="bi x3 y3 w0 h0" alt="" src="https://i.ibb.co/fpdrNDW/bg4.png"/>
+    <div class="c x4 y5d w3 h4">
+        <div class="t m0 x2 h5 y5 ff2 fs1 fc0 sc0 ls0 ws0">Page 3</div>
+    </div>
+    <div class="c xf y5e w22 h18">
+        <div class="t m0 x2 h19 y33 ff1 fs2 fc1 sc0 ls0 ws0">FLUIDS/ CONSUMABLES</div>
+    </div>
+    <div class="c x27 y5f w23 h24">
+        <div class="t m0 x2 h1b y60 ff4 fs7 fc0 sc0 ls0 ws0">   Included     NOT Included</div>
+    </div>
+    <div class="c xf y61 w24 h18">
+        <div class="t m0 x2 h19 y33 ff1 fs2 fc1 sc0 ls0 ws0">ANALYSIS KITS</div>
+    </div>
+    <div class="c x10 y62 w25 h25">
+        <div class="t m0 x2 h1b y63 ff4 fs7 fc0 sc0 ls0 ws0">Included    NOT Included</div>
+    </div>
+    <div class="c x28 y64 w26 h26">
+        <div class="t m0 x2 h19 y65 ff1 fs2 fc0 sc0 ls0 ws0">Comments: <span class="ff2">Additional Balance of Plant equipment coverage can be offered upon request. </span>
+        </div>
+        <div class="t m0 x2 h7 y66 ff2 fs2 fc0 sc0 ls0 ws0">Please note that the rigging is not included in the above pricing.</div>
+    </div>
+    <div class="c x28 y67 w27 h27">
+        <div class="t m0 x2 h9 y68 ff2 fs3 fc0 sc0 ls0 ws0">This proposal is subject strictly to Northeast-Western Energy Systems Agreement 
+        </div>
+        <div class="t m0 x2 h9 y69 ff2 fs3 fc0 sc0 ls0 ws0">for Maintenance of Equipment.
+        </div>
+    </div>
+    <div class="c x28 y6a w28 h27">
+        <div class="t m0 x2 h9 y68 ff2 fs3 fc0 sc0 ls0 ws0">We appreciate the opportunity to submit this budgetary proposal and look forward </div>
+        <div class="t m0 x2 h9 y69 ff2 fs3 fc0 sc0 ls0 ws0">to working with you on this project. Please contact us with any of your questions.</div>
+    </div>
+    <div class="c x28 y6b w29 h28">
+        <div class="t m0 x2 h9 y6c ff2 fs3 fc0 sc0 ls0 ws0">Best regards, </div>
+        <div class="t m0 x2 h9 y6d ff2 fs3 fc0 sc0 ls0 ws0">Darwin Hemans</div>
+        <div class="t m0 x2 h9 y6e ff2 fs3 fc0 sc0 ls0 ws0">Sales Support Engineer </div>
+        <div class="t m0 x2 h9 y6f ff2 fs3 fc0 sc0 ls0 ws0">Northeast-Western Energy</div>
+    </div>
+    <div class="c x28 y70 w2a h27">
+        <div class="t m0 x2 h9 y68 ff2 fs3 fc0 sc0 ls0 ws0">CC: T<span class="_ _1"></span>on<span class="_ _1"></span>ey<span class="_ _1"></span> Coleman </div><div class="t m0 x29 h9 y69 ff2 fs3 fc0 sc0 ls0 ws0">Aaron T<span class="_ _1"></span>as<span class="_ _1"></span>in</div>
+    </div>
+    <div class="c x2a y71 w2b h13">
+        <div class="t m0 xd h14 y72 ff1 fs5 fc0 sc0 ls0 ws0">GENERAL COMMENTS</div>
+    </div>
+    <div class="c x12 y73 w20 h1c">
+        <div class="t m0 x14 h29 y74 ff1 fs7 fc0 sc0 ls0 ws0">Engine Lubricating Oil Sample Kits / Analysis</div>
+    </div>
+    <div class="c x12 y75 w20 h1d">
+        <div class="t m0 x2b hc y44 ff1 fs4 fc0 sc0 ls0 ws0">Coolant Sample / Kit Analysis</div>
+    </div>
+    <div class="c x12 y76 w20 h1e">
+        <div class="t m0 x1a hc y46 ff1 fs4 fc0 sc0 ls0 ws0">Fuel Gas Sample Kits / Analysis</div>
+    </div>
+    <div class="c x12 y77 w20 h1c">
+        <div class="t m0 x2c hc y44 ff1 fs4 fc0 sc0 ls0 ws0">Engine</div>
+    </div>
+    <div class="c x12 y78 w20 h1d">
+        <div class="t m0 x2d hc y44 ff1 fs4 fc0 sc0 ls0 ws0">Gearbox</div>
+    </div>
+    <div class="c x12 y79 w20 h1e">
+        <div class="t m0 x1e hc y46 ff1 fs4 fc0 sc0 ls0 ws0">Generator Lubricating Oil</div>
+    </div>
+    <div class="c x12 y7a w20 h22">
+        <div class="t m0 x1d hc y46 ff1 fs4 fc0 sc0 ls0 ws0">Coolant / Corrosion Inhibitor Supply</div>
+    </div>
+    <div class="c x12 y7b w20 h1e">
+        <div class="t m0 x2e hc y40 ff1 fs4 fc0 sc0 ls0 ws0">Grease Supply</div>
+    </div>
+    <div class="c x26 y7c w21 h13">
+        <div class="t m0 x2f h14 y72 ff1 fs5 fc0 sc0 ls0 ws0">SCOPE OF AGREEMENT</div>
+    </div>
+</div>
+<div class="pi" data-data='{"ctm":[1.000000,0.000000,0.000000,1.000000,0.000000,0.000000]}'></div>
+</div>
+</div>
+<div class="loading-indicator">
+
+</div>
+</body>
+</html>
